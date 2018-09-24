@@ -34,6 +34,9 @@ func Run(_address, _path string) error {
 		return err
 	}
 
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "OK")
+	})
 	http.Handle(path, promhttp.Handler())
 	http.Handle("/", prometheus.InstrumentHandler(serviceName, s))
 	fmt.Printf("get the service metrics on %s%s\n", address, path)

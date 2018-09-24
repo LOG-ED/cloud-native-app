@@ -1,9 +1,35 @@
 ## Cloud-native example application
 
-### Run the application (with Consul)
+### Run Consul
 
-`make start` and `make stop`.
+`make start-consul`
+
+### Run the application (with Prometheus)
+
+`make start`
+
+#### Get the exposed port
+
+```
+docker-compose ps app
+         Name            Command   State            Ports         
+------------------------------------------------------------------
+cloud-native-app_app_1   ./app     Up      0.0.0.0:32797->8080/tcp
+```   
+So, the url to open in the browser is http://localhost:32797
+
+#### Scale the application
+
+`docker-compose scale app=2`
+
+#### Check the metrics
+
+With the browser, open the url `http://localhost:9090/targets`.
 
 ### Build the application
 
 `make build`
+
+### Destroy all
+
+`make stop`

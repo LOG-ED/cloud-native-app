@@ -1,21 +1,20 @@
 package service
 
 import (
-	"fmt"
-	"time"
 	"net/http"
 	"strings"
+	"html/template"
 
 	prometheus "github.com/prometheus/client_golang/prometheus"
 	consul "github.com/hashicorp/consul/api"
 )
 
 type Service struct {
-	Name        string
-	TTL         time.Duration
-	Port		int
-	ConsulAgent *consul.Agent
-	Metrics     Metrics
+	Name        	string
+	Port			int
+	ConsulAgent		*consul.Agent
+	ConsulHealth	*consul.Health
+	Metrics     	Metrics
 }
 
 func NewService(name string, port int) (*Service, error) {
@@ -25,8 +24,6 @@ func NewService(name string, port int) (*Service, error) {
 
 	s.registerMetrics()
 	s.registerConsul()
-
-	//go s.UpdateTTL(s.Check)
 
 	return s, nil
 }
@@ -44,7 +41,11 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return
 	}
-	s.Metrics.Requests.WithLabelValues("success").Inc()
 
-	fmt.Fprint(w)
+	num := s.countConsulServices()
+
+	t := template.Must(template.ParseFiles("tmpl/homepage.html"))
+	t.Execute(w, num)
+
+	s.Metrics.Requests.WithLabelValues("success").Inc()
 }

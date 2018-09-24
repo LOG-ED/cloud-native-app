@@ -14,4 +14,5 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app ./
+COPY --from=builder /go/src/github.com/LOG-ED/cloud-native-app/tmpl/homepage.html tmpl/homepage.html
 CMD ["./app"]

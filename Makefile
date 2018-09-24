@@ -1,4 +1,4 @@
-.PHONY: build start stop help
+.PHONY: start-consul start build stop help
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -11,6 +11,9 @@ build:
 
 build-no-cache:
 	docker-compose build --no-cache
+
+start-consul:
+	docker-compose up -d consul
 
 start:
 	docker-compose up -d --remove-orphans
