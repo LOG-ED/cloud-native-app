@@ -18,9 +18,6 @@ func newRootCommand() *cobra.Command {
 			if address == "" {
 				return fmt.Errorf("The listen address cannot be empty")
 			}
-			if metricsPath == "" {
-				return fmt.Errorf("The metrics path cannot be empty")
-			}
 			
 			return service.Run(address, metricsPath)
 		},
@@ -28,7 +25,6 @@ func newRootCommand() *cobra.Command {
 
 	flags := cmd.Flags()
 	flags.StringVar(&address, "listen-address", ":8080", "Address to listen on for HTTP requests")
-	flags.StringVar(&metricsPath, "metrics-path", "/metrics", "Path to metrics endpoint")
 	return cmd
 }
 

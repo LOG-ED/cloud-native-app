@@ -5,9 +5,6 @@ import (
 	"net/http"
 	"strings"
 	"strconv"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -37,8 +34,7 @@ func Run(_address, _path string) error {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "OK")
 	})
-	http.Handle(path, promhttp.Handler())
-	http.Handle("/", prometheus.InstrumentHandler(serviceName, s))
-	fmt.Printf("get the service metrics on %s%s\n", address, path)
+
+	http.Handle("/", s)
 	return http.ListenAndServe(address, nil)
 }

@@ -22,10 +22,6 @@ So, the url to open in the browser is http://localhost:32797
 
 `docker-compose scale app=2`
 
-#### Check the metrics
-
-With the browser, open the url `http://localhost:9090/targets`.
-
 ### Build the application
 
 `make build`
