@@ -7,16 +7,8 @@
 ### Run the application (with Prometheus)
 
 `make start`
-
-#### Get the exposed port
-
-```
-docker-compose ps app
-         Name            Command   State            Ports         
-------------------------------------------------------------------
-cloud-native-app_app_1   ./app     Up      0.0.0.0:32797->8080/tcp
-```   
-So, the url to open in the browser is http://localhost:32797
+  
+In the browser open the url http://localhost or check the load balancer stats http://localhost/stats. 
 
 #### Scale the application
 
